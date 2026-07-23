@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 必须 = Mapper 接口的全类名（复制粘贴） -->
+<mapper namespace="com.biyesheji.gybbysj.mapper.PageCreateMapper">
+    <select id="FindQuestionByCondition" resultType="com.biyesheji.gybbysj.pojo.Entity.Question">
+        select * from question
+        where 1=1
+        <if test="addQuestionDTO.chapter!=null and addQuestionDTO.chapter != ''" >
+            and chapter = #{addQuestionDTO.chapter}
+        </if>
+            and creator_id = #{userid}
+        <if test="addQuestionDTO.type!=null and addQuestionDTO.type != ''">
+            and type = #{addQuestionDTO.type}
+        </if>
+        <if test="addQuestionDTO.difficulty!=null and addQuestionDTO.difficulty !=''">
+            and difficulty = #{addQuestionDTO.difficulty}
+        </if>
+    </select>
+
+    <insert id="createPaper" useGeneratedKeys="true" keyProperty="paperId" keyColumn="id">
+        insert into
+            exam_paper
+            (title, description, total_score, duration, pass_score, question_count,creator_id)
+        values
+            (#{title},#{description},#{totalScore},#{duration},#{passScore},#{questionCount},#{userId})
+    </insert>
+
+    <insert id="createPaperItem">
+#         根据列表questionId逐个加入副标
+        INSERT INTO exam_paper_question
+        (paper_id, question_id, question_type, score,sort_order)
+        VALUES
+        <foreach collection="questionIdScore" item="q" index="idx" separator=",">
+            (
+            #{paperId},
+            #{q.questionId},
+            #{q.questionType},
+            #{q.questionScore},
+            ${idx + 1}
+            )
+        </foreach>
+    </insert>
+</mapper>

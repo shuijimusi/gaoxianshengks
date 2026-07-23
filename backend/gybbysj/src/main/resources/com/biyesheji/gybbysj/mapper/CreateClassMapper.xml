@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 必须 = Mapper 接口的全类名（复制粘贴） -->
+<mapper namespace="com.biyesheji.gybbysj.mapper.CreateClassMapper">
+    <select id="getCourse" resultType="com.biyesheji.gybbysj.pojo.Entity.Course">
+        select * from course c
+        inner join student_course  s on c.id = s.course_id
+        where s.student_id = #{userId}
+    </select>
+</mapper>

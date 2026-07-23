@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: gybbysj
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/gybbysj?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+  # 【关键修改】Redis前缀改为 data.redis
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      # password: 你的Redis密码（有密码再打开）
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 3531037807@qq.com
+    password: gbzbykhsfgrzdbaf   # QQ邮箱授权码，不是登录密码
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.starttls.enable: true
+  ai:
+    openai:
+      base-url: https://api.deepseek.com
+      api-key: sk-00faef231f3a4e1883bdafe86426bceb
+      chat:
+        options:
+          model: deepseek-v4-flash
+
+mybatis-plus:
+  type-aliases-package: com.biyesheji.gybbysj.pojo # 别名扫描包
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    org.springframework.ai.chat: debug
+    com.example.xingzhisrm: debug
+    org.springframework.ai.chat.client: DEBUG
+    org.springframework.ai.model: DEBUG
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+
+server:
+  ssl:
+    enabled: false

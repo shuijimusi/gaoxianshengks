@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 必须 = Mapper 接口的全类名（复制粘贴） -->
+<mapper namespace="com.biyesheji.gybbysj.mapper.JoinExamMapper">
+    <select id="findAllExam" resultType="com.biyesheji.gybbysj.vo.JoinExam.FindAllExamVO">
+        select tea.username, c.course_name, ep.title, ep.duration,ec.start_time,ec.end_time,sc.course_id,ec.status,ec.id
+        from exam_course ec
+        INNER JOIN course c ON ec.class_id = c.id
+        LEFT JOIN exam_paper ep ON ec.paper_id = ep.id
+        LEFT JOIN user tea ON c.teacher_id = tea.id
+        inner join student_course sc on c.id = sc.course_id
+        where c.course_name = #{courseId}
+        AND sc.student_id = #{userid}
+    </select>
+
+    <select id="findClass">
+        select  c.course_name
+        from course c
+        inner join student_course sc on c.id = sc.course_id
+        inner join user u on u.id = sc.student_id
+        where sc.student_id = #{userid}
+        <if test="classname != null and classname!= '' ">
+            and c.course_name like concat('%',#{classname},'%')
+        </if>
+    </select>
+</mapper>

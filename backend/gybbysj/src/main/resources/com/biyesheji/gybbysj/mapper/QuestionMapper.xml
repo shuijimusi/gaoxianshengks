@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 必须 = Mapper 接口的全类名（复制粘贴） -->
+<mapper namespace="com.biyesheji.gybbysj.mapper.QuestionMapper">
+    <select id="FindQuestionByCondition" resultType="com.biyesheji.gybbysj.vo.Question.QuestionSearchVO">
+        select * from question where  status = 0
+        <if test="chapter != null and chapter != ''">
+            and chapter like concat('%',#{chapter},'%')
+        </if>
+        <if test="content != null and content != ''">
+            and content like concat('%',#{content},'%')
+        </if>
+            and creator_id = #{userId}
+    </select>
+</mapper>

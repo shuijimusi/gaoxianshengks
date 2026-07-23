@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 必须 = Mapper 接口的全类名（复制粘贴） -->
+<mapper namespace="com.biyesheji.gybbysj.mapper.QueryScoreMapper">
+    <select id="queryClassList">
+        select course_name from course where teacher_id=#{userId}
+        <if test="classname != null and classname != ''">
+            and course_name like concat('%',#{classname},'%')
+        </if>
+        and status = 1
+    </select>
+    <select id="queryStuList" resultType="com.biyesheji.gybbysj.vo.QueryScore.queryStuListVO">
+        select stu.username as username,stu.id as stuId,es.stu_status as stuStatus,es.submit_time as submitTime
+        from exam_student es
+        inner join user stu on es.student_id = stu.id
+        where es.exam_course_id=#{examId}
+    </select>
+    <select id="queryExamList" resultType="com.biyesheji.gybbysj.vo.QueryScore.queryExamListVO">
+        select ep.title as examName, ec.id as examId
+        from exam_course ec
+        inner join course c on ec.class_id = c.id
+        inner join exam_paper ep on ec.paper_id = ep.id
+        where ec.teacher_id = #{userId}
+        and c.course_name = #{courseName}
+    </select>
+</mapper>
