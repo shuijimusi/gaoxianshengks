@@ -19,12 +19,9 @@ public class PageCreateController {
     public Result selectQuestion(@RequestBody AddQuestionDTO addQuestionDTO){
         return pageCreateService.selectQuestion(addQuestionDTO);
     }
-
     // 创建试卷
     @PostMapping("/createpaper")
     public Result createPaper(@RequestBody PageCreateDTO pageCreateDTO){
         return pageCreateService.createPaper(pageCreateDTO);
     }
-
-
 }
